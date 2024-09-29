@@ -75,13 +75,4 @@ options:
           R: >
             `TRUE` or `FALSE` (default), provide histograms (continuous variables only)
 
-    - name: box
-      title: Box plot
-      type: Bool
-      default: false
-      description:
-          R: >
-            `TRUE` or `FALSE` (default), provide box plots (continuous variables only)
-
-
 ...

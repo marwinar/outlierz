@@ -52,7 +52,7 @@ children:
         children:
           - type: CheckBox
             name: useZ
-            label: Z score
+            label: '| Z-score |'
             style: inline
             verticalAlignment: center
             children:
@@ -71,5 +71,3 @@ children:
         children:
           - type: CheckBox
             name: hist
-          - type: CheckBox
-            name: box

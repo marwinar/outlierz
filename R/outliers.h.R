@@ -13,8 +13,7 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             maxValue = 0,
             useZ = TRUE,
             zLimit = 3.29,
-            hist = FALSE,
-            box = FALSE, ...) {
+            hist = FALSE, ...) {
 
             super$initialize(
                 package="outlierz",
@@ -58,10 +57,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "hist",
                 hist,
                 default=FALSE)
-            private$..box <- jmvcore::OptionBool$new(
-                "box",
-                box,
-                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..useMin)
@@ -71,7 +66,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..useZ)
             self$.addOption(private$..zLimit)
             self$.addOption(private$..hist)
-            self$.addOption(private$..box)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -81,8 +75,7 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         maxValue = function() private$..maxValue$value,
         useZ = function() private$..useZ$value,
         zLimit = function() private$..zLimit$value,
-        hist = function() private$..hist$value,
-        box = function() private$..box$value),
+        hist = function() private$..hist$value),
     private = list(
         ..dep = NA,
         ..useMin = NA,
@@ -91,8 +84,7 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..maxValue = NA,
         ..useZ = NA,
         ..zLimit = NA,
-        ..hist = NA,
-        ..box = NA)
+        ..hist = NA)
 )
 
 outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -102,9 +94,7 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         text = function() private$.items[["text"]],
         outofrange = function() private$.items[["outofrange"]],
         zscores = function() private$.items[["zscores"]],
-        iqr = function() private$.items[["iqr"]],
-        hist = function() private$.items[["hist"]],
-        boxplot = function() private$.items[["boxplot"]]),
+        hist = function() private$.items[["hist"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -154,29 +144,6 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `name`="zvalue", 
                         `title`="zvalue", 
                         `type`="number"))))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="iqr",
-                title="IQR based outliers",
-                visible="(useIQR)",
-                rows=0,
-                columns=list(
-                    list(
-                        `name`="id", 
-                        `title`="id", 
-                        `type`="text"),
-                    list(
-                        `name`="value", 
-                        `title`="value", 
-                        `type`="number"),
-                    list(
-                        `name`="distance", 
-                        `title`="distance", 
-                        `type`="number"),
-                    list(
-                        `name`="type", 
-                        `title`="type", 
-                        `type`="text"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="hist",
@@ -184,15 +151,7 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(hist)",
                 width=400,
                 height=300,
-                renderFun=".plotHistogram"))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="boxplot",
-                title="Boxplot",
-                visible="(box)",
-                width=400,
-                height=300,
-                renderFun=".plotBoxplot"))}))
+                renderFun=".plotHistogram"))}))
 
 outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "outliersBase",
@@ -230,16 +189,12 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   an outlier
 #' @param hist \code{TRUE} or \code{FALSE} (default), provide histograms
 #'   (continuous variables only)
-#' @param box \code{TRUE} or \code{FALSE} (default), provide box plots
-#'   (continuous variables only)
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$outofrange} \tab \tab \tab \tab \tab a table of the out of range values \cr
 #'   \code{results$zscores} \tab \tab \tab \tab \tab a table of the outliers based on z-scores \cr
-#'   \code{results$iqr} \tab \tab \tab \tab \tab a table of the outliers based on IQRs \cr
 #'   \code{results$hist} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$boxplot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -258,8 +213,7 @@ outliers <- function(
     maxValue = 0,
     useZ = TRUE,
     zLimit = 3.29,
-    hist = FALSE,
-    box = FALSE) {
+    hist = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("outliers requires jmvcore to be installed (restart may be required)")
@@ -279,8 +233,7 @@ outliers <- function(
         maxValue = maxValue,
         useZ = useZ,
         zLimit = zLimit,
-        hist = hist,
-        box = box)
+        hist = hist)
 
     analysis <- outliersClass$new(
         options = options,
