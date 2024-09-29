@@ -23,34 +23,6 @@ children:
         margin: small
         children:
           - type: CheckBox
-            name: useMin
-            label: Values should be at least
-            style: inline
-            verticalAlignment: center
-            children:
-              - type: TextBox
-                name: minValue
-                label: ''
-                format: number
-                enable: (useMin)
-      - type: LayoutBox
-        margin: small
-        children:
-          - type: CheckBox
-            name: useMax
-            label: Values should be at most
-            style: inline
-            verticalAlignment: center
-            children:
-              - type: TextBox
-                name: maxValue
-                label: ''
-                format: number
-                enable: (useMax)
-      - type: LayoutBox
-        margin: small
-        children:
-          - type: CheckBox
             name: useZ
             label: '| Z-score |'
             style: inline

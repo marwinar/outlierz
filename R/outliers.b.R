@@ -26,52 +26,23 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       df2 <- cbind(rownum = 1:nrow(df), df)
       colnames(df2)[2] <- "value"
       
-      
-      if (self$options$useMin) {
-        df2 <- mutate(df2, outOfRangeLow = value <= !!self$options$minValue)
-      }
-      
-      if (self$options$useMax) {
-        df2 <- mutate(df2, outOfRangeHigh = value >= !!self$options$maxValue)
-      }
-      
+
       if (self$options$useZ) {
         df2 <- df2 %>%
           mutate(z_value = scale(value),
                  z_out_of_range = abs(z_value) >= !!self$options$zLimit)
       }
-      
-
-      
       return(df2)          
     },
     
     .populateResults = function(outliers) {
-      if(self$options$useMin | self$options$useMax) {
-        table <- self$results$outofrange
-        
-        range_outliers <- outliers %>%
-          filter(if_any(starts_with("outOfRange"), ~ . == TRUE))
-        
-        #            self$results$text$setContent(outliers)
-        
-        if(nrow(range_outliers) > 0)
-          for (i in 1:nrow(range_outliers)) {
-            table$addRow(rowKey=i, values=list(
-              id = range_outliers$rownum[i],
-              value = range_outliers$value[i],
-              outlier = "yes"))
-          }
-      }
-      
       if(self$options$useZ) {
         table <- self$results$zscores
         
         z_outliers <- outliers %>%
           filter(z_out_of_range == TRUE)
         
-        #            self$results$text$setContent(outliers)
-        
+
         if(nrow(z_outliers) > 0)
           for (i in 1:nrow(z_outliers)) {
             table$addRow(rowKey=i, values=list(
@@ -82,7 +53,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       }
     },
     
-    .plotHistogram = function(image, ...) {
+    .plotHistogram = function(image, ggtheme, theme, ...) {
       plotData <- image$state
       if(is.null(plotData)) {
         return()
@@ -90,14 +61,12 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
       plot <- plot_z_histogram(plotData$value, 
                                limits = self$options$useZ, 
-                               z_limit = self$options$zLimit)
+                               z_limit = self$options$zLimit,
+                               fill = theme$fill[2]) +
+        ggtheme 
       print(plot)
       TRUE
-    },
-    .plotBoxplot = function(image, ...) {
- 
-      return(TRUE)
-      
     }
+
   )
 )

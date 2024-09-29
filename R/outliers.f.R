@@ -4,10 +4,10 @@ say_hi <- function() {
 
 plot_z_histogram <- function(data,
                              limits = TRUE,
-                             z_limit = 3.29) {
-  plot <- ggplot2::ggplot(mapping = aes(x = data)) +
-    geom_histogram() +
-    scale_x_continuous(sec.axis = sec_axis(trans = scale, name = "z-score"))
+                             z_limit = 3.29, fill = "blue") {
+  
+  plot <- ggplot2::ggplot(mapping = aes(x = data, fill = fill)) +
+    geom_histogram(show.legend = FALSE) 
   
   if (limits) {
     data_mean <- mean(data, na.rm = TRUE)

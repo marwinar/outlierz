@@ -18,38 +18,6 @@ options:
       permitted:
         - numeric
 
-    - name: useMin
-      title: Minimum value
-      type: Bool
-      default: false
-      description:
-          R: >
-            `TRUE` or `FALSE` (default), provide lower bound
-            
-    - name: useMax
-      title: Maximum value
-      type: Bool
-      default: false
-      description:
-          R: >
-            `TRUE` or `FALSE` (default), provide upper bound
-
-    - name: minValue
-      title: Minimum value
-      type: Number
-      default: 0
-      description:
-          R: >
-            a number specifying the lower bound of the valid range
-
-    - name: maxValue
-      title: Maximum value
-      type: Number
-      default: 0
-      description:
-          R: >
-            a number specifying the upper bound of the valid range
-
     - name: useZ
       title: Z score
       type: Bool

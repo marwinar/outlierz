@@ -7,10 +7,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             dep = NULL,
-            useMin = FALSE,
-            useMax = FALSE,
-            minValue = 0,
-            maxValue = 0,
             useZ = TRUE,
             zLimit = 3.29,
             hist = FALSE, ...) {
@@ -28,22 +24,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..useMin <- jmvcore::OptionBool$new(
-                "useMin",
-                useMin,
-                default=FALSE)
-            private$..useMax <- jmvcore::OptionBool$new(
-                "useMax",
-                useMax,
-                default=FALSE)
-            private$..minValue <- jmvcore::OptionNumber$new(
-                "minValue",
-                minValue,
-                default=0)
-            private$..maxValue <- jmvcore::OptionNumber$new(
-                "maxValue",
-                maxValue,
-                default=0)
             private$..useZ <- jmvcore::OptionBool$new(
                 "useZ",
                 useZ,
@@ -59,29 +39,17 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
 
             self$.addOption(private$..dep)
-            self$.addOption(private$..useMin)
-            self$.addOption(private$..useMax)
-            self$.addOption(private$..minValue)
-            self$.addOption(private$..maxValue)
             self$.addOption(private$..useZ)
             self$.addOption(private$..zLimit)
             self$.addOption(private$..hist)
         }),
     active = list(
         dep = function() private$..dep$value,
-        useMin = function() private$..useMin$value,
-        useMax = function() private$..useMax$value,
-        minValue = function() private$..minValue$value,
-        maxValue = function() private$..maxValue$value,
         useZ = function() private$..useZ$value,
         zLimit = function() private$..zLimit$value,
         hist = function() private$..hist$value),
     private = list(
         ..dep = NA,
-        ..useMin = NA,
-        ..useMax = NA,
-        ..minValue = NA,
-        ..maxValue = NA,
         ..useZ = NA,
         ..zLimit = NA,
         ..hist = NA)
@@ -179,10 +147,6 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param dep .
-#' @param useMin \code{TRUE} or \code{FALSE} (default), provide lower bound
-#' @param useMax \code{TRUE} or \code{FALSE} (default), provide upper bound
-#' @param minValue a number specifying the lower bound of the valid range
-#' @param maxValue a number specifying the upper bound of the valid range
 #' @param useZ \code{TRUE} or \code{FALSE} (default), use z-scores for outlier
 #'   detection
 #' @param zLimit a number specifying the min absolute z value to be considered
@@ -207,10 +171,6 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 outliers <- function(
     data,
     dep,
-    useMin = FALSE,
-    useMax = FALSE,
-    minValue = 0,
-    maxValue = 0,
     useZ = TRUE,
     zLimit = 3.29,
     hist = FALSE) {
@@ -227,10 +187,6 @@ outliers <- function(
 
     options <- outliersOptions$new(
         dep = dep,
-        useMin = useMin,
-        useMax = useMax,
-        minValue = minValue,
-        maxValue = maxValue,
         useZ = useZ,
         zLimit = zLimit,
         hist = hist)
