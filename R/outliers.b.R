@@ -19,17 +19,14 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .compute = function() {
-        data <- self$data
-        variable <- self$options$dep
-        df <- jmvcore::select(data, variable)
-        
+        df <- jmvcore::select(self$data, self$options$dep)
         if (nrow(df) == 0)
           return(NULL)
         
-        df2 <- tibble(value = df[, 1]) %>%
-          mutate(rownum = rownames(self$data))
-        
-        df2 <- df2 %>%
+
+        df2 <- df %>%
+          mutate(rownum = rownames(self$data)) %>%
+          rename(value = 1) %>%
           mutate(
             z_value = as.numeric(scale(value)),
             z_out_of_range = abs(z_value) >= !!self$options$zLimit
@@ -49,7 +46,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           results <- tidyr::nest(.data = z_outliers, data = c(rownum, value, z_value))
           
           purrr::walk2(
-            .x = 1:nrow(results),
+            .x = results$rowKey,
             .y = results$data,
             .f = function(.x, .y) {
               table$addRow(rowKey = .x, values = .y)
