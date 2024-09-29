@@ -23,10 +23,9 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       if (nrow(df) == 0)
         return(NULL)
       
-      df2 <- cbind(rownum = 1:nrow(df), df)
-      colnames(df2)[2] <- "value"
+      df2 <- tibble(value = df[,1]) %>%
+        mutate(rownum = rownames(self$data))
       
-
       if (self$options$useZ) {
         df2 <- df2 %>%
           mutate(z_value = scale(value),
@@ -56,7 +55,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     .plotHistogram = function(image, ggtheme, theme, ...) {
       plotData <- image$state
       if(is.null(plotData)) {
-        return()
+        return(FALSE)
       }
       
       plot <- plot_z_histogram(plotData$value, 
