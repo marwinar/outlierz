@@ -7,7 +7,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             dep = NULL,
-            useZ = TRUE,
             zLimit = 3.29,
             hist = FALSE, ...) {
 
@@ -24,10 +23,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..useZ <- jmvcore::OptionBool$new(
-                "useZ",
-                useZ,
-                default=TRUE)
             private$..zLimit <- jmvcore::OptionNumber$new(
                 "zLimit",
                 zLimit,
@@ -39,18 +34,15 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
 
             self$.addOption(private$..dep)
-            self$.addOption(private$..useZ)
             self$.addOption(private$..zLimit)
             self$.addOption(private$..hist)
         }),
     active = list(
         dep = function() private$..dep$value,
-        useZ = function() private$..useZ$value,
         zLimit = function() private$..zLimit$value,
         hist = function() private$..hist$value),
     private = list(
         ..dep = NA,
-        ..useZ = NA,
         ..zLimit = NA,
         ..hist = NA)
 )
@@ -147,8 +139,6 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param dep .
-#' @param useZ \code{TRUE} or \code{FALSE} (default), use z-scores for outlier
-#'   detection
 #' @param zLimit a number specifying the min absolute z value to be considered
 #'   an outlier
 #' @param hist \code{TRUE} or \code{FALSE} (default), provide histograms
@@ -171,7 +161,6 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 outliers <- function(
     data,
     dep,
-    useZ = TRUE,
     zLimit = 3.29,
     hist = FALSE) {
 
@@ -187,7 +176,6 @@ outliers <- function(
 
     options <- outliersOptions$new(
         dep = dep,
-        useZ = useZ,
         zLimit = zLimit,
         hist = hist)
 

@@ -22,10 +22,8 @@ children:
       - type: LayoutBox
         margin: small
         children:
-          - type: CheckBox
-            name: useZ
-            label: '| Z-score |'
-            style: inline
+          - type: LayoutBox
+            margin: large
             verticalAlignment: center
             children:
               - type: TextBox
