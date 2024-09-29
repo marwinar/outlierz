@@ -135,7 +135,7 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Outlier Detection")
+                title="Outliers via Z-Scores")
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",

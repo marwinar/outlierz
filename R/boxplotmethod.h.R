@@ -8,8 +8,10 @@ boxplotmethodOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
         initialize = function(
             dep = NULL,
             group = NULL,
-            alt = "notequal",
-            varEq = TRUE, ...) {
+            useIQR = TRUE,
+            iqrLimitMild = 1.5,
+            iqrLimitExtreme = 3,
+            box = FALSE, ...) {
 
             super$initialize(
                 package="outlierz",
@@ -23,34 +25,44 @@ boxplotmethodOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
             private$..group <- jmvcore::OptionVariable$new(
                 "group",
                 group)
-            private$..alt <- jmvcore::OptionList$new(
-                "alt",
-                alt,
-                options=list(
-                    "notequal",
-                    "onegreater",
-                    "twogreater"),
-                default="notequal")
-            private$..varEq <- jmvcore::OptionBool$new(
-                "varEq",
-                varEq,
+            private$..useIQR <- jmvcore::OptionBool$new(
+                "useIQR",
+                useIQR,
                 default=TRUE)
+            private$..iqrLimitMild <- jmvcore::OptionNumber$new(
+                "iqrLimitMild",
+                iqrLimitMild,
+                default=1.5)
+            private$..iqrLimitExtreme <- jmvcore::OptionNumber$new(
+                "iqrLimitExtreme",
+                iqrLimitExtreme,
+                default=3)
+            private$..box <- jmvcore::OptionBool$new(
+                "box",
+                box,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..group)
-            self$.addOption(private$..alt)
-            self$.addOption(private$..varEq)
+            self$.addOption(private$..useIQR)
+            self$.addOption(private$..iqrLimitMild)
+            self$.addOption(private$..iqrLimitExtreme)
+            self$.addOption(private$..box)
         }),
     active = list(
         dep = function() private$..dep$value,
         group = function() private$..group$value,
-        alt = function() private$..alt$value,
-        varEq = function() private$..varEq$value),
+        useIQR = function() private$..useIQR$value,
+        iqrLimitMild = function() private$..iqrLimitMild$value,
+        iqrLimitExtreme = function() private$..iqrLimitExtreme$value,
+        box = function() private$..box$value),
     private = list(
         ..dep = NA,
         ..group = NA,
-        ..alt = NA,
-        ..varEq = NA)
+        ..useIQR = NA,
+        ..iqrLimitMild = NA,
+        ..iqrLimitExtreme = NA,
+        ..box = NA)
 )
 
 boxplotmethodResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -64,11 +76,11 @@ boxplotmethodResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
             super$initialize(
                 options=options,
                 name="",
-                title="boxplotmethod")
+                title="Outliers via boxplot method")
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="boxplotmethod"))}))
+                title="Outliers boxplot"))}))
 
 boxplotmethodBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "boxplotmethodBase",
@@ -97,8 +109,13 @@ boxplotmethodBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param group .
-#' @param alt .
-#' @param varEq .
+#' @param useIQR \code{TRUE} or \code{FALSE} (default), use z-scores for
+#'   outlier detection
+#' @param iqrLimitMild a number specifying iqr distance for mild outliers
+#' @param iqrLimitExtreme a number specifying iqr distance for extreme
+#'   outliers
+#' @param box \code{TRUE} or \code{FALSE} (default), provide box plots
+#'   (continuous variables only)
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
@@ -109,8 +126,10 @@ boxplotmethod <- function(
     data,
     dep,
     group,
-    alt = "notequal",
-    varEq = TRUE) {
+    useIQR = TRUE,
+    iqrLimitMild = 1.5,
+    iqrLimitExtreme = 3,
+    box = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("boxplotmethod requires jmvcore to be installed (restart may be required)")
@@ -127,8 +146,10 @@ boxplotmethod <- function(
     options <- boxplotmethodOptions$new(
         dep = dep,
         group = group,
-        alt = alt,
-        varEq = varEq)
+        useIQR = useIQR,
+        iqrLimitMild = iqrLimitMild,
+        iqrLimitExtreme = iqrLimitExtreme,
+        box = box)
 
     analysis <- boxplotmethodClass$new(
         options = options,

@@ -2,7 +2,7 @@ title: Boxplots
 name: boxplotmethod
 jus: '3.0'
 stage: 0
-compilerMode: aggressive
+compilerMode: tame
 children:
   - type: VariableSupplier
     persistentItems: false
@@ -25,10 +25,22 @@ children:
   - type: LayoutBox
     margin: large
     children:
-      - type: ComboBox
-        name: alt
+      - type: CheckBox
+        name: useIQR
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: iqrLimitMild
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: iqrLimitExtreme
+        format: number
   - type: LayoutBox
     margin: large
     children:
       - type: CheckBox
-        name: varEq
+        name: box

@@ -18,20 +18,37 @@ options:
       title: Grouping Variable
       type: Variable
 
-    - name: alt
-      title: Alternative hypothesis
-      type: List
-      options:
-        - title: Not equal
-          name:  notequal
-        - title: One greater
-          name:  onegreater
-        - title: Two greater
-          name:  twogreater
-      default: notequal
-
-    - name: varEq
-      title: Assume equal variances
+    - name: useIQR
+      title: "IQR / boxplot"
       type: Bool
       default: true
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), use z-scores for outlier detection
+
+    - name: iqrLimitMild
+      title: mild
+      type: Number
+      default: 1.5
+      description:
+          R: >
+            a number specifying iqr distance for mild outliers
+
+    - name: iqrLimitExtreme
+      title: extreme
+      type: Number
+      default: 3.0
+      description:
+          R: >
+            a number specifying iqr distance for extreme outliers
+      
+
+    - name: box
+      title: Box plot
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide box plots (continuous variables only)
+
 ...

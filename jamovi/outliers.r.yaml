@@ -1,6 +1,6 @@
 ---
 name:  outliers
-title: Outlier Detection
+title: Outliers via Z-Scores
 jrs:   '1.1'
 
 items:

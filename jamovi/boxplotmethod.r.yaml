@@ -1,11 +1,11 @@
 ---
 name:  boxplotmethod
-title: boxplotmethod
+title: Outliers via boxplot method
 jrs:   '1.1'
 
 items:
     - name:  text
-      title: boxplotmethod
+      title: Outliers boxplot
       type:  Preformatted
 
 ...
