@@ -4,3 +4,4 @@
 ^build$
 \.jmo$
 ^jamovi$
+^README\.Rmd$
