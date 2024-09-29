@@ -132,25 +132,9 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         return()
       }
       
-      data_mean <- mean(plotData$value, na.rm = TRUE)
-      data_sd <- sd(plotData$value, na.rm = TRUE)
-      
-      plot <- ggplot(plotData, aes(x=value)) +
-        geom_histogram() +
-        scale_x_continuous(sec.axis = sec_axis(
-          trans = ~ (. - data_mean) / data_sd, 
-          name = "z-score")) 
-      
-      if (self$options$useZ) {
-        limit <- self$options$zLimit
-        lower <- data_mean - limit * data_sd
-        upper <- data_mean + limit * data_sd
-        
-        plot <- plot +
-          geom_vline(xintercept = lower, color = "red") +
-          geom_vline(xintercept = upper, color = "red")
-      }
-      
+      plot <- plot_z_histogram(plotData$value, 
+                               limits = self$options$useZ, 
+                               z_limit = self$options$zLimit)
       print(plot)
       TRUE
     },

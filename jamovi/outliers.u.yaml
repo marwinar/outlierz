@@ -17,7 +17,7 @@ children:
             isTarget: true
   - type: CollapseBox
     label: Criteria
-    collapsed: true
+    collapsed: false
     children:
       - type: LayoutBox
         margin: small
@@ -80,7 +80,7 @@ children:
                 enable: (useIQR)
   - type: CollapseBox
     label: Plots
-    collapsed: true
+    collapsed: false
     children:
       - type: LayoutBox
         margin: large
