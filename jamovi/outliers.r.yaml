@@ -7,38 +7,21 @@ items:
     - name:  text
       title: Outliers
       type:  Preformatted
-      
-    - name:  outofrange
-      title: Out of Range
-      description: a table of the out of range values
-      visible: (useMin | useMax)
-      type: Table
-      rows:  0
-      columns:
-        - name: id
-          title: id
-          type: text
-        - name: value
-          title: value
-          type: number
-        - name: outlier
-          title: outlier
-          type: text
 
     - name:  zscores
-      title: Z Scores
+      title: Z-Scores
       description: a table of the outliers based on z-scores
-      visible: (useZ)
+      visible: true
       type: Table
       rows:  0
       columns:
-        - name: id
+        - name: rownum
           title: id
           type: text
         - name: value
           title: value
           type: number
-        - name: zvalue
+        - name: z_value
           title: zvalue
           type: number
 

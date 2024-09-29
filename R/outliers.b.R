@@ -1,5 +1,6 @@
 
 
+
 # This file is a generated template, your changes will not be overwritten
 
 outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
@@ -30,7 +31,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         df2 <- df2 %>%
           mutate(
-            z_value = scale(value),
+            z_value = as.numeric(scale(value)),
             z_out_of_range = abs(z_value) >= !!self$options$zLimit
           )
         return(df2)
@@ -40,20 +41,22 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         table <- self$results$zscores
         
         z_outliers <- outliers %>%
-          filter(z_out_of_range == TRUE)
+          filter(z_out_of_range == TRUE) %>%
+          select(-z_out_of_range) %>%
+          mutate(rowKey = row_number())
         
+        if (nrow(z_outliers) > 0) {
+          results <- tidyr::nest(.data = z_outliers, data = c(rownum, value, z_value))
+          
+          purrr::walk2(
+            .x = 1:nrow(results),
+            .y = results$data,
+            .f = function(.x, .y) {
+              table$addRow(rowKey = .x, values = .y)
+            }
+          )
+        }
         
-        if (nrow(z_outliers) > 0)
-          for (i in 1:nrow(z_outliers)) {
-            table$addRow(
-              rowKey = i,
-              values = list(
-                id = z_outliers$rownum[i],
-                value = z_outliers$value[i],
-                zvalue = z_outliers$z_value[i]
-              )
-            )
-          }
       },
       
       .plotHistogram = function(image, ggtheme, theme, ...) {
