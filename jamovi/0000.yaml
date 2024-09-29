@@ -9,7 +9,13 @@ maintainer: Marielle Winarto <mwinarto@gmail.com>
 date: '2024-09-29'
 type: R
 description: Detects outliers in continuous variables based on z-scores.
-analyses: []
+analyses:
+  - title: Outliers (Z)
+    name: outliers
+    ns: outlierz
+    menuGroup: Exploration
+    menuTitle: Outliers (Z)
+    menuSubgroup: Outliers
 usesNative: true
 minApp: 1.0.8
 

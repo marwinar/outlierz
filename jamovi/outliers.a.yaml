@@ -1,0 +1,111 @@
+---
+name:  outliers
+title: Outliers (Z)
+menuGroup: Exploration
+menuSubgroup: Outliers
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: dep
+      title: Variable
+      type: Variable
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+
+    - name: useMin
+      title: Minimum value
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide lower bound
+            
+    - name: useMax
+      title: Maximum value
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide upper bound
+
+    - name: minValue
+      title: Minimum value
+      type: Number
+      default: 0
+      description:
+          R: >
+            a number specifying the lower bound of the valid range
+
+    - name: maxValue
+      title: Maximum value
+      type: Number
+      default: 0
+      description:
+          R: >
+            a number specifying the upper bound of the valid range
+
+    - name: useZ
+      title: Z score
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), use z-scores for outlier detection
+
+    - name: zLimit
+      title: limit
+      type: Number
+      min: 0.0
+      default: 3.29
+      description:
+          R: >
+            a number specifying the min absolute z value to be considered an outlier
+
+    - name: useIQR
+      title: "IQR / boxplot"
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), use z-scores for outlier detection
+
+    - name: iqrLimitMild
+      title: mild
+      type: Number
+      default: 1.5
+      description:
+          R: >
+            a number specifying iqr distance for mild outliers
+
+    - name: iqrLimitExtreme
+      title: extreme
+      type: Number
+      default: 3.0
+      description:
+          R: >
+            a number specifying iqr distance for extreme outliers
+      
+    - name: hist
+      title: Histogram
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide histograms (continuous variables only)
+
+    - name: box
+      title: Box plot
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide box plots (continuous variables only)
+
+
+...

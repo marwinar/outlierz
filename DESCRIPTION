@@ -7,7 +7,10 @@ Description: A jamovi module for detecting outliers with the Z-score method.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: jmvcore (>= 0.8.5), R6
+Imports: 
+    dplyr,
+    jmvcore (>= 0.8.5),
+    R6
 Authors@R: 
     person("Marielle", "Winarto", , "mwinarto@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "LUCY-ORCID-ID"))

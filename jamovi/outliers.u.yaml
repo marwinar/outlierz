@@ -1,0 +1,91 @@
+title: outliers
+name: outliers
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Variable
+        children:
+          - type: VariablesListBox
+            name: dep
+            maxItemCount: 1
+            isTarget: true
+  - type: CollapseBox
+    label: Criteria
+    collapsed: true
+    children:
+      - type: LayoutBox
+        margin: small
+        children:
+          - type: CheckBox
+            name: useMin
+            label: Values should be at least
+            style: inline
+            verticalAlignment: center
+            children:
+              - type: TextBox
+                name: minValue
+                label: ''
+                format: number
+                enable: (useMin)
+      - type: LayoutBox
+        margin: small
+        children:
+          - type: CheckBox
+            name: useMax
+            label: Values should be at most
+            style: inline
+            verticalAlignment: center
+            children:
+              - type: TextBox
+                name: maxValue
+                label: ''
+                format: number
+                enable: (useMax)
+      - type: LayoutBox
+        margin: small
+        children:
+          - type: CheckBox
+            name: useZ
+            label: Z score
+            style: inline
+            verticalAlignment: center
+            children:
+              - type: TextBox
+                name: zLimit
+                label: '>='
+                format: number
+                enable: (useZ)
+      - type: LayoutBox
+        margin: small
+        children:
+          - type: CheckBox
+            name: useIQR
+            label: IQR / box plot
+            style: inline
+            verticalAlignment: center
+            children:
+              - type: TextBox
+                name: iqrLimitMild
+                format: number
+                enable: (useIQR)
+              - type: TextBox
+                name: iqrLimitExtreme
+                format: number
+                enable: (useIQR)
+  - type: CollapseBox
+    label: Plots
+    collapsed: true
+    children:
+      - type: LayoutBox
+        margin: large
+        style: inline
+        children:
+          - type: CheckBox
+            name: hist
+          - type: CheckBox
+            name: box

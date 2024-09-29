@@ -1,0 +1,82 @@
+---
+name:  outliers
+title: Outlier Detection
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: Outliers
+      type:  Preformatted
+      
+    - name:  outofrange
+      title: Out of Range
+      description: a table of the out of range values
+      visible: (useMin | useMax)
+      type: Table
+      rows:  0
+      columns:
+        - name: id
+          title: id
+          type: text
+        - name: value
+          title: value
+          type: number
+        - name: outlier
+          title: outlier
+          type: text
+
+    - name:  zscores
+      title: Z Scores
+      description: a table of the outliers based on z-scores
+      visible: (useZ)
+      type: Table
+      rows:  0
+      columns:
+        - name: id
+          title: id
+          type: text
+        - name: value
+          title: value
+          type: number
+        - name: zvalue
+          title: zvalue
+          type: number
+
+    - name:  iqr
+      title: IQR based outliers
+      description: a table of the outliers based on IQRs
+      visible: (useIQR)
+      type: Table
+      rows:  0
+      columns:
+        - name: id
+          title: id
+          type: text
+        - name: value
+          title: value
+          type: number
+        - name: distance
+          title: distance
+          type: number
+        - name: type
+          title: type
+          type: text
+
+
+    - name: hist
+      title: Histogram
+      visible: (hist)
+      type: Image
+      width:  400
+      height: 300
+      renderFun: .plotHistogram
+
+    - name: boxplot
+      title: Boxplot
+      visible: (box)
+      type: Image
+      width:  400
+      height: 300
+      renderFun: .plotBoxplot
+          
+...
