@@ -11,7 +11,7 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             useMax = FALSE,
             minValue = 0,
             maxValue = 0,
-            useZ = FALSE,
+            useZ = TRUE,
             zLimit = 3.29,
             useIQR = FALSE,
             iqrLimitMild = 1.5,
@@ -51,7 +51,7 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..useZ <- jmvcore::OptionBool$new(
                 "useZ",
                 useZ,
-                default=FALSE)
+                default=TRUE)
             private$..zLimit <- jmvcore::OptionNumber$new(
                 "zLimit",
                 zLimit,
@@ -239,7 +239,7 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' Outliers (Z)
+#' Z-Scores
 #'
 #' 
 #' @param data .
@@ -285,7 +285,7 @@ outliers <- function(
     useMax = FALSE,
     minValue = 0,
     maxValue = 0,
-    useZ = FALSE,
+    useZ = TRUE,
     zLimit = 3.29,
     useIQR = FALSE,
     iqrLimitMild = 1.5,

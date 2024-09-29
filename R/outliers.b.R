@@ -7,14 +7,15 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   private = list(
     .run = function() {
       outliers <- private$.compute()
-      private$.populateResults(outliers)
-      
-      image <- self$results$hist
-      image$setState(outliers)
-      
-      image2 <- self$results$boxplot
-      image2$setState(outliers)
-      
+      if(!is.null(outliers)) {
+        private$.populateResults(outliers)
+        
+        image <- self$results$hist
+        image$setState(outliers)
+        
+        image2 <- self$results$boxplot
+        image2$setState(outliers)
+      }      
     },
     
     .compute = function() {

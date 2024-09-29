@@ -1,6 +1,6 @@
 ---
 name:  outliers
-title: Outliers (Z)
+title: Z-Scores
 menuGroup: Exploration
 menuSubgroup: Outliers
 version: '1.0.0'
@@ -53,7 +53,7 @@ options:
     - name: useZ
       title: Z score
       type: Bool
-      default: false
+      default: true
       description:
           R: >
             `TRUE` or `FALSE` (default), use z-scores for outlier detection
