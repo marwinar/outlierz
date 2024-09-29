@@ -14,3 +14,5 @@ Imports:
 Authors@R: 
     person("Marielle", "Winarto", , "mwinarto@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "LUCY-ORCID-ID"))
+URL: https://github.com/marwinar/outlierz
+BugReports: https://github.com/marwinar/outlierz/issues
