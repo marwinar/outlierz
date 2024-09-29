@@ -13,9 +13,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             maxValue = 0,
             useZ = TRUE,
             zLimit = 3.29,
-            useIQR = FALSE,
-            iqrLimitMild = 1.5,
-            iqrLimitExtreme = 3,
             hist = FALSE,
             box = FALSE, ...) {
 
@@ -57,18 +54,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 zLimit,
                 min=0,
                 default=3.29)
-            private$..useIQR <- jmvcore::OptionBool$new(
-                "useIQR",
-                useIQR,
-                default=FALSE)
-            private$..iqrLimitMild <- jmvcore::OptionNumber$new(
-                "iqrLimitMild",
-                iqrLimitMild,
-                default=1.5)
-            private$..iqrLimitExtreme <- jmvcore::OptionNumber$new(
-                "iqrLimitExtreme",
-                iqrLimitExtreme,
-                default=3)
             private$..hist <- jmvcore::OptionBool$new(
                 "hist",
                 hist,
@@ -85,9 +70,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..maxValue)
             self$.addOption(private$..useZ)
             self$.addOption(private$..zLimit)
-            self$.addOption(private$..useIQR)
-            self$.addOption(private$..iqrLimitMild)
-            self$.addOption(private$..iqrLimitExtreme)
             self$.addOption(private$..hist)
             self$.addOption(private$..box)
         }),
@@ -99,9 +81,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         maxValue = function() private$..maxValue$value,
         useZ = function() private$..useZ$value,
         zLimit = function() private$..zLimit$value,
-        useIQR = function() private$..useIQR$value,
-        iqrLimitMild = function() private$..iqrLimitMild$value,
-        iqrLimitExtreme = function() private$..iqrLimitExtreme$value,
         hist = function() private$..hist$value,
         box = function() private$..box$value),
     private = list(
@@ -112,9 +91,6 @@ outliersOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..maxValue = NA,
         ..useZ = NA,
         ..zLimit = NA,
-        ..useIQR = NA,
-        ..iqrLimitMild = NA,
-        ..iqrLimitExtreme = NA,
         ..hist = NA,
         ..box = NA)
 )
@@ -252,11 +228,6 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   detection
 #' @param zLimit a number specifying the min absolute z value to be considered
 #'   an outlier
-#' @param useIQR \code{TRUE} or \code{FALSE} (default), use z-scores for
-#'   outlier detection
-#' @param iqrLimitMild a number specifying iqr distance for mild outliers
-#' @param iqrLimitExtreme a number specifying iqr distance for extreme
-#'   outliers
 #' @param hist \code{TRUE} or \code{FALSE} (default), provide histograms
 #'   (continuous variables only)
 #' @param box \code{TRUE} or \code{FALSE} (default), provide box plots
@@ -287,9 +258,6 @@ outliers <- function(
     maxValue = 0,
     useZ = TRUE,
     zLimit = 3.29,
-    useIQR = FALSE,
-    iqrLimitMild = 1.5,
-    iqrLimitExtreme = 3,
     hist = FALSE,
     box = FALSE) {
 
@@ -311,9 +279,6 @@ outliers <- function(
         maxValue = maxValue,
         useZ = useZ,
         zLimit = zLimit,
-        useIQR = useIQR,
-        iqrLimitMild = iqrLimitMild,
-        iqrLimitExtreme = iqrLimitExtreme,
         hist = hist,
         box = box)
 

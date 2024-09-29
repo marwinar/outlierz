@@ -67,30 +67,6 @@ options:
           R: >
             a number specifying the min absolute z value to be considered an outlier
 
-    - name: useIQR
-      title: "IQR / boxplot"
-      type: Bool
-      default: false
-      description:
-          R: >
-            `TRUE` or `FALSE` (default), use z-scores for outlier detection
-
-    - name: iqrLimitMild
-      title: mild
-      type: Number
-      default: 1.5
-      description:
-          R: >
-            a number specifying iqr distance for mild outliers
-
-    - name: iqrLimitExtreme
-      title: extreme
-      type: Number
-      default: 3.0
-      description:
-          R: >
-            a number specifying iqr distance for extreme outliers
-      
     - name: hist
       title: Histogram
       type: Bool

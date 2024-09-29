@@ -1,4 +1,4 @@
-title: outliers
+title: Outliers via Z-scores
 name: outliers
 jus: '3.0'
 stage: 0
@@ -61,23 +61,6 @@ children:
                 label: '>='
                 format: number
                 enable: (useZ)
-      - type: LayoutBox
-        margin: small
-        children:
-          - type: CheckBox
-            name: useIQR
-            label: IQR / box plot
-            style: inline
-            verticalAlignment: center
-            children:
-              - type: TextBox
-                name: iqrLimitMild
-                format: number
-                enable: (useIQR)
-              - type: TextBox
-                name: iqrLimitExtreme
-                format: number
-                enable: (useIQR)
   - type: CollapseBox
     label: Plots
     collapsed: false
