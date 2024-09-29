@@ -128,6 +128,9 @@ outliersClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     
     .plotHistogram = function(image, ...) {
       plotData <- image$state
+      if(is.null(plotData)) {
+        return()
+      }
       
       data_mean <- mean(plotData$value, na.rm = TRUE)
       data_sd <- sd(plotData$value, na.rm = TRUE)
