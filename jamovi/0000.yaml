@@ -10,11 +10,11 @@ date: '2024-09-29'
 type: R
 description: Detects outliers in continuous variables based on z-scores.
 analyses:
-  - title: Outliers (Z)
+  - title: Z-Scores
     name: outliers
     ns: outlierz
     menuGroup: Exploration
-    menuTitle: Outliers (Z)
+    menuTitle: Z-Scores
     menuSubgroup: Outliers
 usesNative: true
 minApp: 1.0.8
