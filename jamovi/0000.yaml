@@ -1,16 +1,14 @@
 ---
-title: What the Package Does (Title Case)
+title: Outlier Dection using Z-Scores
 name: outlierz
 version: 0.0.0
 jms: '1.0'
 authors:
-  - Who wrote it
-maintainer: The package maintainer <yourself@somewhere.net>
-date: '1970-01-01'
+  - Marielle Winarto
+maintainer: Marielle Winarto <mwinarto@gmail.com>
+date: '2024-09-29'
 type: R
-description: >-
-  More about what it does (maybe more than one line) Use four spaces when
-  indenting paragraphs within the Description.
+description: Detects outliers in continuous variables based on z-scores.
 analyses: []
 usesNative: true
 minApp: 1.0.8
