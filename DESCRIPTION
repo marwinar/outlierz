@@ -1,12 +1,13 @@
 Package: outlierz
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.0.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Outlier Detection based on Z-Scores
+Version: 0.0.900
+Description: A jamovi module for detecting outliers with the Z-score method.
+  Finds the number of outliers, identifies them and offers histograms.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: jmvcore (>= 0.8.5), R6
+Authors@R: 
+    person("Marielle", "Winarto", , "mwinarto@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "LUCY-ORCID-ID"))
