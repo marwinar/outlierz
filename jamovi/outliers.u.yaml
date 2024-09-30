@@ -28,7 +28,7 @@ children:
             children:
               - type: TextBox
                 name: zLimit
-                label: '>='
+                label: '| Z | >='
                 format: number
                 enable: (useZ)
   - type: CollapseBox
