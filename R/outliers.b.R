@@ -40,7 +40,8 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         z_outliers <- outliers %>%
           filter(z_out_of_range == TRUE) %>%
           select(-z_out_of_range) %>%
-          mutate(rowKey = row_number())
+          mutate(rowKey = row_number()) %>%
+          arrange(z_value)
         
         if (nrow(z_outliers) > 0) {
           results <- tidyr::nest(.data = z_outliers, data = c(rownum, value, z_value))
@@ -53,7 +54,6 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             }
           )
         }
-        
       },
       
       .plotHistogram = function(image, ggtheme, theme, ...) {
