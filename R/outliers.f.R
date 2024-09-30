@@ -4,10 +4,10 @@ say_hi <- function() {
 
 plot_z_histogram <- function(data,
                              limits = TRUE,
-                             z_limit = 3.29, fill = "blue") {
-  
+                             z_limit = 3.29,
+                             fill = "blue") {
   plot <- ggplot2::ggplot(mapping = aes(x = data, fill = fill)) +
-    geom_histogram(show.legend = FALSE) 
+    geom_histogram(show.legend = FALSE)
   
   if (limits) {
     data_mean <- mean(data, na.rm = TRUE)
@@ -24,7 +24,16 @@ plot_z_histogram <- function(data,
   plot
 }
 
-find_iqr_outliers <- function(){
+find_z_outliers <- function(df, col, limit) {
+  df %>% mutate(z_value = as.numeric(scale({{col}})),
+                z_out_of_range = abs(z_value) > limit) %>%
+    filter(z_out_of_range) %>%
+    select(-z_out_of_range) %>%
+    mutate(rowKey = row_number()) %>%
+    arrange(z_value)
+}
+
+find_iqr_outliers <- function() {
   boxLimits <- quantile(
     df2$value,
     probs = c(.25, .75),
@@ -52,7 +61,7 @@ find_iqr_outliers <- function(){
       extreme_iqr = abs(iqr_distance) >= extreme_limit
     )
 }
-  
+
 plot_boxplot <- function() {
   plotData <- image$state
   
@@ -85,7 +94,7 @@ plot_boxplot <- function() {
 
 
 update_results_IQR <- function() {
-  if(self$options$useIQR) {
+  if (self$options$useIQR) {
     iqr_outliers <- outliers %>%
       filter(mild_iqr) %>%
       mutate(type = ifelse(extreme_iqr, "extreme", "mild"))
@@ -93,14 +102,16 @@ update_results_IQR <- function() {
     table <- self$results$iqr
     
     if (nrow(iqr_outliers > 0))
-      for(i in 1:nrow(iqr_outliers)){
-        table$addRow(rowKey = i,
-                     values = list(
-                       id = iqr_outliers$rownum[i],
-                       value = iqr_outliers$value[i],
-                       distance = iqr_outliers$iqr_distance[i],
-                       type = iqr_outliers$type[i]
-                     ))
+      for (i in 1:nrow(iqr_outliers)) {
+        table$addRow(
+          rowKey = i,
+          values = list(
+            id = iqr_outliers$rownum[i],
+            value = iqr_outliers$value[i],
+            distance = iqr_outliers$iqr_distance[i],
+            type = iqr_outliers$type[i]
+          )
+        )
         
       }
   }

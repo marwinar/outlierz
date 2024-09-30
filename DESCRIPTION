@@ -16,3 +16,6 @@ Authors@R:
            comment = c(ORCID = "LUCY-ORCID-ID"))
 URL: https://github.com/marwinar/outlierz
 BugReports: https://github.com/marwinar/outlierz/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
