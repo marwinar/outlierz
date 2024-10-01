@@ -19,12 +19,16 @@ plot_z_histogram <- function(data,
     
     plot <- plot +
       geom_vline(xintercept = lower, color = "red") +
-      geom_vline(xintercept = upper, color = "red")
+      geom_vline(xintercept = upper, color = "red") +
+      geom_text(x = lower, y = Inf, hjust = 1, vjust = 1.4, angle = 90, 
+                label = sprintf("z = %.2f", -limit), color = "red") +
+      geom_text(x = upper, y = Inf, hjust = 1, vjust = -1, angle = 90, 
+                label = sprintf("z = %.2f", limit), color = "red")
   }
   plot
 }
 
-find_z_outliers <- function(data, rownum, limit) {
+find_z_outliers <- function(data, rownum, limit = 3.29) {
   results <- tibble(value = data,
                     z_value = as.numeric(scale(data)),
                     rownum = rownum)
