@@ -109,15 +109,15 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 columns=list(
                     list(
                         `name`="rownum", 
-                        `title`="id", 
-                        `type`="text"),
+                        `title`="Row number", 
+                        `type`="number"),
                     list(
                         `name`="value", 
-                        `title`="value", 
+                        `title`="Value", 
                         `type`="number"),
                     list(
                         `name`="z_value", 
-                        `title`="zvalue", 
+                        `title`="Z", 
                         `type`="number"))))
             self$add(jmvcore::Image$new(
                 options=options,

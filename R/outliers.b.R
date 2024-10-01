@@ -21,11 +21,15 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       .compute = function() {
         df <- jmvcore::select(self$data, self$options$dep) 
-          
         if (nrow(df) == 0)
           return(NULL)
         
-        outliers <- find_z_outliers(df[,1], rownames(self$data), self$options$zLimit)
+        z_limit = self$options$zLimit
+        rownum = as.integer(rownames(self$data))  
+        
+        outliers <- find_z_outliers(df[,1], 
+                                    rownum, 
+                                    z_limit)
         return(list(data = df, outliers = outliers))
       },
       

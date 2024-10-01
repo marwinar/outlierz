@@ -45,13 +45,13 @@ items:
       rows:  0
       columns:
         - name: rownum
-          title: id
-          type: text
+          title: Row number
+          type: number
         - name: value
-          title: value
+          title: Value
           type: number
         - name: z_value
-          title: zvalue
+          title: Z
           type: number
 
     - name: hist
