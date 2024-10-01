@@ -8,6 +8,35 @@ items:
       title: Outliers
       type:  Preformatted
 
+    - name: summary
+      title: Summary of results
+      description: summary table of outlier results
+      visible: true
+      type: Table
+      rows: 1
+      columns:
+        - name: variable
+          title: variable
+          type: text
+        - name: n
+          title: N
+          type: number
+        - name: missing
+          title: missing
+          type: number
+        - name: outliers_low
+          superTitle: outliers
+          title: low
+          type: number
+        - name: outliers_high
+          superTitle: outliers
+          title: high
+          type: number
+        - name: outliers_total
+          superTitle: outliers
+          title: total
+          type: number
+
     - name:  zscores
       title: Z-Scores
       description: a table of the outliers based on z-scores
