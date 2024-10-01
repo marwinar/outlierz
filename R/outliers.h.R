@@ -52,6 +52,7 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
+        summary = function() private$.items[["summary"]],
         zscores = function() private$.items[["zscores"]],
         hist = function() private$.items[["hist"]]),
     private = list(),
@@ -65,6 +66,40 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="text",
                 title="Outliers"))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="summary",
+                title="Summary of results",
+                visible=TRUE,
+                rows=1,
+                columns=list(
+                    list(
+                        `name`="variable", 
+                        `title`="variable", 
+                        `type`="text"),
+                    list(
+                        `name`="n", 
+                        `title`="N", 
+                        `type`="number"),
+                    list(
+                        `name`="missing", 
+                        `title`="missing", 
+                        `type`="number"),
+                    list(
+                        `name`="outliers_low", 
+                        `superTitle`="outliers", 
+                        `title`="low", 
+                        `type`="number"),
+                    list(
+                        `name`="outliers_high", 
+                        `superTitle`="outliers", 
+                        `title`="high", 
+                        `type`="number"),
+                    list(
+                        `name`="outliers_total", 
+                        `superTitle`="outliers", 
+                        `title`="total", 
+                        `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="zscores",
@@ -126,15 +161,16 @@ outliersBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$summary} \tab \tab \tab \tab \tab summary table of outlier results \cr
 #'   \code{results$zscores} \tab \tab \tab \tab \tab a table of the outliers based on z-scores \cr
 #'   \code{results$hist} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 #'
-#' \code{results$zscores$asDF}
+#' \code{results$summary$asDF}
 #'
-#' \code{as.data.frame(results$zscores)}
+#' \code{as.data.frame(results$summary)}
 #'
 #' @export
 outliers <- function(

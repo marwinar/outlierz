@@ -20,19 +20,18 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .compute = function() {
-        df <- jmvcore::select(self$data, self$options$dep)
+        df <- jmvcore::select(self$data, self$options$dep) 
+          
         if (nrow(df) == 0)
           return(NULL)
         
-        outliers <- df %>%
-          rename(value = 1) %>%
-          mutate(rownum = rownames(self$data)) %>%
-          find_z_outliers(value, self$options$zLimit)
+        outliers <- find_z_outliers(df[,1], rownames(self$data), self$options$zLimit)
         return(list(data = df, outliers = outliers))
       },
       
       .populateResults = function(outliers) {
         table <- self$results$zscores
+        
         if (nrow(outliers) > 0) {
           results <- tidyr::nest(.data = outliers, data = c(rownum, value, z_value))
           

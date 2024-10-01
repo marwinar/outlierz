@@ -24,13 +24,16 @@ plot_z_histogram <- function(data,
   plot
 }
 
-find_z_outliers <- function(df, col, limit) {
-  df %>% mutate(z_value = as.numeric(scale({{col}})),
-                z_out_of_range = abs(z_value) > limit) %>%
-    filter(z_out_of_range) %>%
+find_z_outliers <- function(data, rownum, limit) {
+  results <- tibble(value = data,
+                    z_value = as.numeric(scale(data)),
+                    rownum = rownum)
+  results %>%
+    mutate(z_out_of_range = abs(z_value) > limit) %>%
+    filter(z_out_of_range == TRUE) %>%
     select(-z_out_of_range) %>%
-    mutate(rowKey = row_number()) %>%
-    arrange(z_value)
+    arrange(z_value) %>%
+    mutate(rowKey = row_number()) 
 }
 
 find_iqr_outliers <- function() {
