@@ -14,18 +14,6 @@ options:
       title: Dependent Variable
       type: Variable
 
-    - name: group
-      title: Grouping Variable
-      type: Variable
-
-    - name: useIQR
-      title: "IQR / boxplot"
-      type: Bool
-      default: true
-      description:
-          R: >
-            `TRUE` or `FALSE` (default), use z-scores for outlier detection
-
     - name: iqrLimitMild
       title: mild
       type: Number
@@ -41,7 +29,6 @@ options:
       description:
           R: >
             a number specifying iqr distance for extreme outliers
-      
 
     - name: box
       title: Box plot

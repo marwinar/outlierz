@@ -8,4 +8,69 @@ items:
       title: Outliers boxplot
       type:  Preformatted
 
+    - name: summary
+      title: Summary of results
+      description: summary table of outlier results
+      visible: true
+      type: Table
+      rows: 1
+      columns:
+        - name: variable
+          title: Variable
+          type: text
+        - name: n
+          title: N
+          type: integer
+        - name: missing
+          title: missing
+          type: integer
+        - name: outliers_low_extreme
+          superTitle: outliers
+          title: low extreme
+          type: integer
+        - name: outliers_low_mild
+          superTitle: outliers
+          title: low mild
+          type: integer
+        - name: outliers_high_mild
+          superTitle: outliers
+          title: high mild
+          type: integer
+        - name: outliers_high_extreme
+          superTitle: outliers
+          title: high extreme
+          type: integer
+        - name: outliers_total
+          superTitle: outliers
+          title: total
+          type: integer
+
+    - name: iqrscores
+      title: IQR scores
+      description: a table of the outliers based on IQR scores
+      visible: true
+      type: Table
+      rows:  0
+      columns:
+        - name: type
+          title: Type
+          type: text
+          combineBelow: true
+        - name: rownum
+          title: Row number
+          type: number
+        - name: value
+          title: Value
+          type: number
+        - name: iqr_distance
+          title: IQR distance
+          type: number
+
+    - name: boxplot
+      title: Boxplot
+      visible: (box)
+      type: Image
+      width:  400
+      height: 300
+      renderFun: .plotBoxplot
 ...

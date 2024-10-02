@@ -15,27 +15,12 @@ children:
             name: dep
             maxItemCount: 1
             isTarget: true
-      - type: TargetLayoutBox
-        label: Grouping Variable
-        children:
-          - type: VariablesListBox
-            name: group
-            maxItemCount: 1
-            isTarget: true
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: useIQR
   - type: LayoutBox
     margin: large
     children:
       - type: TextBox
         name: iqrLimitMild
         format: number
-  - type: LayoutBox
-    margin: large
-    children:
       - type: TextBox
         name: iqrLimitExtreme
         format: number

@@ -7,8 +7,6 @@ boxplotmethodOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
     public = list(
         initialize = function(
             dep = NULL,
-            group = NULL,
-            useIQR = TRUE,
             iqrLimitMild = 1.5,
             iqrLimitExtreme = 3,
             box = FALSE, ...) {
@@ -22,13 +20,6 @@ boxplotmethodOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
             private$..dep <- jmvcore::OptionVariable$new(
                 "dep",
                 dep)
-            private$..group <- jmvcore::OptionVariable$new(
-                "group",
-                group)
-            private$..useIQR <- jmvcore::OptionBool$new(
-                "useIQR",
-                useIQR,
-                default=TRUE)
             private$..iqrLimitMild <- jmvcore::OptionNumber$new(
                 "iqrLimitMild",
                 iqrLimitMild,
@@ -43,23 +34,17 @@ boxplotmethodOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
                 default=FALSE)
 
             self$.addOption(private$..dep)
-            self$.addOption(private$..group)
-            self$.addOption(private$..useIQR)
             self$.addOption(private$..iqrLimitMild)
             self$.addOption(private$..iqrLimitExtreme)
             self$.addOption(private$..box)
         }),
     active = list(
         dep = function() private$..dep$value,
-        group = function() private$..group$value,
-        useIQR = function() private$..useIQR$value,
         iqrLimitMild = function() private$..iqrLimitMild$value,
         iqrLimitExtreme = function() private$..iqrLimitExtreme$value,
         box = function() private$..box$value),
     private = list(
         ..dep = NA,
-        ..group = NA,
-        ..useIQR = NA,
         ..iqrLimitMild = NA,
         ..iqrLimitExtreme = NA,
         ..box = NA)
@@ -69,7 +54,10 @@ boxplotmethodResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
     "boxplotmethodResults",
     inherit = jmvcore::Group,
     active = list(
-        text = function() private$.items[["text"]]),
+        text = function() private$.items[["text"]],
+        summary = function() private$.items[["summary"]],
+        iqrscores = function() private$.items[["iqrscores"]],
+        boxplot = function() private$.items[["boxplot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -80,7 +68,83 @@ boxplotmethodResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="Outliers boxplot"))}))
+                title="Outliers boxplot"))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="summary",
+                title="Summary of results",
+                visible=TRUE,
+                rows=1,
+                columns=list(
+                    list(
+                        `name`="variable", 
+                        `title`="Variable", 
+                        `type`="text"),
+                    list(
+                        `name`="n", 
+                        `title`="N", 
+                        `type`="integer"),
+                    list(
+                        `name`="missing", 
+                        `title`="missing", 
+                        `type`="integer"),
+                    list(
+                        `name`="outliers_low_extreme", 
+                        `superTitle`="outliers", 
+                        `title`="low extreme", 
+                        `type`="integer"),
+                    list(
+                        `name`="outliers_low_mild", 
+                        `superTitle`="outliers", 
+                        `title`="low mild", 
+                        `type`="integer"),
+                    list(
+                        `name`="outliers_high_mild", 
+                        `superTitle`="outliers", 
+                        `title`="high mild", 
+                        `type`="integer"),
+                    list(
+                        `name`="outliers_high_extreme", 
+                        `superTitle`="outliers", 
+                        `title`="high extreme", 
+                        `type`="integer"),
+                    list(
+                        `name`="outliers_total", 
+                        `superTitle`="outliers", 
+                        `title`="total", 
+                        `type`="integer"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="iqrscores",
+                title="IQR scores",
+                visible=TRUE,
+                rows=0,
+                columns=list(
+                    list(
+                        `name`="type", 
+                        `title`="Type", 
+                        `type`="text", 
+                        `combineBelow`=TRUE),
+                    list(
+                        `name`="rownum", 
+                        `title`="Row number", 
+                        `type`="number"),
+                    list(
+                        `name`="value", 
+                        `title`="Value", 
+                        `type`="number"),
+                    list(
+                        `name`="iqr_distance", 
+                        `title`="IQR distance", 
+                        `type`="number"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="boxplot",
+                title="Boxplot",
+                visible="(box)",
+                width=400,
+                height=300,
+                renderFun=".plotBoxplot"))}))
 
 boxplotmethodBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "boxplotmethodBase",
@@ -108,9 +172,6 @@ boxplotmethodBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param dep .
-#' @param group .
-#' @param useIQR \code{TRUE} or \code{FALSE} (default), use z-scores for
-#'   outlier detection
 #' @param iqrLimitMild a number specifying iqr distance for mild outliers
 #' @param iqrLimitExtreme a number specifying iqr distance for extreme
 #'   outliers
@@ -119,14 +180,21 @@ boxplotmethodBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$summary} \tab \tab \tab \tab \tab summary table of outlier results \cr
+#'   \code{results$iqrscores} \tab \tab \tab \tab \tab a table of the outliers based on IQR scores \cr
+#'   \code{results$boxplot} \tab \tab \tab \tab \tab an image \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$summary$asDF}
+#'
+#' \code{as.data.frame(results$summary)}
 #'
 #' @export
 boxplotmethod <- function(
     data,
     dep,
-    group,
-    useIQR = TRUE,
     iqrLimitMild = 1.5,
     iqrLimitExtreme = 3,
     box = FALSE) {
@@ -135,18 +203,14 @@ boxplotmethod <- function(
         stop("boxplotmethod requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
-    if ( ! missing(group)) group <- jmvcore::resolveQuo(jmvcore::enquo(group))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
-            `if`( ! missing(dep), dep, NULL),
-            `if`( ! missing(group), group, NULL))
+            `if`( ! missing(dep), dep, NULL))
 
 
     options <- boxplotmethodOptions$new(
         dep = dep,
-        group = group,
-        useIQR = useIQR,
         iqrLimitMild = iqrLimitMild,
         iqrLimitExtreme = iqrLimitExtreme,
         box = box)
