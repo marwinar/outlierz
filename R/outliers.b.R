@@ -22,16 +22,18 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       .compute = function() {
         df <- jmvcore::select(self$data, self$options$dep) 
+        dep <- self$options$dep
         if (nrow(df) == 0)
           return(NULL)
         
         z_limit = self$options$zLimit
         rownum = as.integer(rownames(self$data))  
         
-        outliers <- find_z_outliers(df[,1], 
+        results <- find_z_outliers(df, dep, 
                                     rownum, 
                                     z_limit)
-        return(list(data = df, outliers = outliers))
+#        self$results$text$setContent(results)
+        results
       },
       
       .populateResults = function(outliers) {
@@ -52,16 +54,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       .populateSummary = function(results) {
         table <- self$results$summary
-        values = list(
-          variable = "variabele a",
-          n = 100,
-          missing = 5,
-          outliers_low = 2,
-          outliers_high = 5,
-          outliers_total = 7
-        )
-        
-        table$setRow(rowNo = 1, values = values)
+        table$setRow(rowNo = 1, values = results$summary)
         TRUE
       },
       
@@ -77,7 +70,8 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           z_limit = self$options$zLimit,
           fill = theme$fill[2]
         ) +
-          ggtheme
+          ggtheme +
+          xlab(self$options$dep)
         print(plot)
         TRUE
       }

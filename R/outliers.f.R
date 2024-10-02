@@ -20,25 +20,59 @@ plot_z_histogram <- function(data,
     plot <- plot +
       geom_vline(xintercept = lower, color = "red") +
       geom_vline(xintercept = upper, color = "red") +
-      geom_text(x = lower, y = Inf, hjust = 1, vjust = 1.4, angle = 90, 
-                label = sprintf("z = %.2f", -limit), color = "red") +
-      geom_text(x = upper, y = Inf, hjust = 1, vjust = -1, angle = 90, 
-                label = sprintf("z = %.2f", limit), color = "red")
+      geom_text(
+        x = lower,
+        y = Inf,
+        hjust = 1,
+        vjust = 1.4,
+        angle = 90,
+        label = sprintf("z = %.2f", -limit),
+        color = "red"
+      ) +
+      geom_text(
+        x = upper,
+        y = Inf,
+        hjust = 1,
+        vjust = -1,
+        angle = 90,
+        label = sprintf("z = %.2f", limit),
+        color = "red"
+      )
   }
   plot
 }
 
-find_z_outliers <- function(data, rownum, limit = 3.29) {
+find_z_outliers <- function(df, var, rownum, limit = 3.29) {
+  data <- df[[var]]
   results <- tibble(value = data,
                     z_value = as.numeric(scale(data)),
-                    rownum = rownum)
-  results %>%
-    mutate(type = case_when(
-          z_value < -limit ~ "below limit",
-          z_value > limit ~ "above limit",
-          TRUE ~ "not an outlier")) %>%
+                    rownum = rownum) %>%
+    mutate(
+      type = case_when(
+        z_value < -limit ~ "below limit",
+        z_value > limit ~ "above limit",
+        TRUE ~ "not an outlier"
+      )
+    )
+  
+  outliers <- results %>%
     filter(type != "not an outlier") %>%
     arrange(type, abs(z_value)) %>%
     mutate(rowKey = row_number())
+  
+  summary <- list(
+    variable = var,
+    n = length(data),
+    missing = sum(is.na(data)),
+    outliers_low = sum(outliers$type == "below limit"),
+    outliers_high = sum(outliers$type == "above limit")
+  )
+  summary$outliers_total <- summary$outliers_low + summary$outliers_high
+  
+  
+  return(list(
+    data = df,
+    outliers = outliers,
+    summary = summary
+  ))
 }
-
