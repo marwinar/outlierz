@@ -16,26 +16,26 @@ items:
       rows: 1
       columns:
         - name: variable
-          title: variable
+          title: Variable
           type: text
         - name: n
           title: N
-          type: number
+          type: integer
         - name: missing
           title: missing
-          type: number
+          type: integer
         - name: outliers_low
           superTitle: outliers
           title: low
-          type: number
+          type: integer
         - name: outliers_high
           superTitle: outliers
           title: high
-          type: number
+          type: integer
         - name: outliers_total
           superTitle: outliers
           title: total
-          type: number
+          type: integer
 
     - name:  zscores
       title: Z-Scores
@@ -44,6 +44,10 @@ items:
       type: Table
       rows:  0
       columns:
+        - name: type
+          title: Type
+          type: text
+          combineBelow: true
         - name: rownum
           title: Row number
           type: number

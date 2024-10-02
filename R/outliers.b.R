@@ -13,6 +13,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         results <- private$.compute()
         if (!is.null(results$outliers)) {
           private$.populateResults(results$outliers)
+          private$.populateSummary(results)
           
           image <- self$results$hist
           image$setState(results$data)
@@ -37,7 +38,7 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         table <- self$results$zscores
         
         if (nrow(outliers) > 0) {
-          results <- tidyr::nest(.data = outliers, data = c(rownum, value, z_value))
+          results <- tidyr::nest(.data = outliers, data = c(type, rownum, value, z_value))
           
           purrr::walk2(
             .x = results$rowKey,
@@ -47,6 +48,21 @@ outliersClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             }
           )
         }
+      },
+      
+      .populateSummary = function(results) {
+        table <- self$results$summary
+        values = list(
+          variable = "variabele a",
+          n = 100,
+          missing = 5,
+          outliers_low = 2,
+          outliers_high = 5,
+          outliers_total = 7
+        )
+        
+        table$setRow(rowNo = 1, values = values)
+        TRUE
       },
       
       .plotHistogram = function(image, ggtheme, theme, ...) {

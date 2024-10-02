@@ -75,31 +75,31 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 columns=list(
                     list(
                         `name`="variable", 
-                        `title`="variable", 
+                        `title`="Variable", 
                         `type`="text"),
                     list(
                         `name`="n", 
                         `title`="N", 
-                        `type`="number"),
+                        `type`="integer"),
                     list(
                         `name`="missing", 
                         `title`="missing", 
-                        `type`="number"),
+                        `type`="integer"),
                     list(
                         `name`="outliers_low", 
                         `superTitle`="outliers", 
                         `title`="low", 
-                        `type`="number"),
+                        `type`="integer"),
                     list(
                         `name`="outliers_high", 
                         `superTitle`="outliers", 
                         `title`="high", 
-                        `type`="number"),
+                        `type`="integer"),
                     list(
                         `name`="outliers_total", 
                         `superTitle`="outliers", 
                         `title`="total", 
-                        `type`="number"))))
+                        `type`="integer"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="zscores",
@@ -107,6 +107,11 @@ outliersResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible=TRUE,
                 rows=0,
                 columns=list(
+                    list(
+                        `name`="type", 
+                        `title`="Type", 
+                        `type`="text", 
+                        `combineBelow`=TRUE),
                     list(
                         `name`="rownum", 
                         `title`="Row number", 
