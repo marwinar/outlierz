@@ -69,14 +69,17 @@ plot_boxplot <- function(data, iqr_limit_mild, fill = "blue") {
     
     plot <- ggplot(data, aes(x = 0, y = value, fill = fill)) +
       geom_boxplot(coef = iqr_limit_mild,
-                   outlier.shape = NA, show.legend = FALSE) +
-      geom_point(data = points, aes(shape = shape, alpha = .6), size = 2, show.legend = FALSE) +
+                   outlier.shape = NA, show.legend = FALSE) 
+    
+  if(nrow(points > 0)) {
+      plot <- plot + geom_point(data = points, aes(x = x, y = value, shape = shape, alpha = .6), size = 2, show.legend = FALSE) +
       scale_shape_identity() +
       theme(
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
       )
+  }
   plot
 }
 
